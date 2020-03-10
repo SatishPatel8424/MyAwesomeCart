@@ -1,7 +1,10 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Product,Contact
 from math import ceil
+
+from django.shortcuts import render
+
+from .models import Product, Contact, Orders
+
+
 # Create your views here.
 def index(requst):
    # products = Product.objects.all()
@@ -49,4 +52,14 @@ def productView(requst,myid):
     return render(requst,'shop/prodView.html',{'product':product[0]})
 
 def checkout(requst):
+    if requst.method == "POST":
+        name = requst.POST.get('name', '')
+        email = requst.POST.get('email', '')
+        address = requst.POST.get('address1', '') + " " +requst.POST.get('address2', '')
+        city = requst.POST.get('city', '')
+        state = requst.POST.get('state', '')
+        zip_code = requst.POST.get('zip_code', '')
+        phone = requst.POST.get('phone', '')
+        order = Orders(name=name, email=email,address=address,city=city,state=state,zip_code=zip_code, phone=phone)
+        order.save()
     return render(requst,'shop/checkout.html')
