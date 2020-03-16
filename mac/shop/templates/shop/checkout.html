@@ -91,6 +91,11 @@ else {
     }
 }
 document.getElementById('cart').innerHTML = sum;
-
+$('#itemsJson').val(JSON.stringify(cart));
+{% if thank %}
+alert("Thanks for ordering with us.your order is {{id}}. us it to track you order using our order tracker ");
+localStorage.clear();
+document.location ="/shop";
+{% endif %}
 </script>
 {% endblock %}

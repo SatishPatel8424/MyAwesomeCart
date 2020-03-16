@@ -53,6 +53,7 @@ def productView(requst,myid):
 
 def checkout(requst):
     if requst.method == "POST":
+        items_json = requst.POST.get('itemsJson', '')
         name = requst.POST.get('name', '')
         email = requst.POST.get('email', '')
         address = requst.POST.get('address1', '') + " " +requst.POST.get('address2', '')
@@ -60,6 +61,10 @@ def checkout(requst):
         state = requst.POST.get('state', '')
         zip_code = requst.POST.get('zip_code', '')
         phone = requst.POST.get('phone', '')
-        order = Orders(name=name, email=email,address=address,city=city,state=state,zip_code=zip_code, phone=phone)
+        order = Orders( items_json=items_json,name=name, email=email,address=address,city=city,state=state,zip_code=zip_code, phone=phone)
         order.save()
+
+        thank = True
+        id= order.order_id
+        return render(requst,'shop/checkout.html',{'thank':thank,'id':id})
     return render(requst,'shop/checkout.html')
